@@ -3,12 +3,13 @@ import unittest
 
 class clienttest(unittest.TestCase):
 
-    def test_client_loads_APIKey_Correctly(self):
+    def test_client_APIKey_Can_authenticate(self):
 
-        subject = client.Client();
+        subject = client.Client()
 
+        status = subject.status()
 
-        self.assertEqual('Public key: 3ed7f03032576c0b754b5b356266e05b Private key: 766666d17836a85476588539f0fd2cf3fcf5297c', subject.status())
+        self.assertEqual(200, status, status)
 
 if __name__ == '__main__':
     unittest.main()
