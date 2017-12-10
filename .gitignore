@@ -1,3 +1,6 @@
+# This contains the private key for the marvel api, don't commit any changes in it
+**/*/privateKey.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
