@@ -12,23 +12,6 @@ class reportCacheTest(unittest.TestCase):
 
         self.assertEqual(str(type(dict)), "<class 'dict'>")
 
-    def test_getPopularCharacters(self):
-
-        subject = reportCache.reportCache()
-
-        popular = subject.getPopularCharacters(2, 0, False)
-
-        self.assertEqual(popular, "3-D Man 12\nA-Bomb (HAS) 0")
-
-    def test_getPopularCharacters_can_cache(self):
-
-        subject = reportCache.reportCache()
-
-        popular = subject.getPopularCharacters(2, 0, True)
-
-        self.assertEqual(popular, "3-D Man 12\nA-Bomb (HAS) 0")
-
-
     def test_getAllCharacters(self):
 
         subject = reportCache.reportCache()
@@ -37,9 +20,7 @@ class reportCacheTest(unittest.TestCase):
 
         sortedList = sorted(list, key=lambda character: character[1], reverse=True) #sort by appearances
 
-        #print(sortedList)
-
-        self.assertEqual(sortedList[0], ('A.I.M.',20) )
+        self.assertEqual(sortedList[0], ('Spider-Man', 3095) )
 
         self.assertEqual(len(sortedList), 1491)
 

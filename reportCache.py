@@ -48,21 +48,6 @@ class reportCache:
 
             return my_dict
 
-    def getPopularCharacters(self, limit, offset, fetchFromCache=False):
-
-        response = self.getCharacters(limit, offset, fetchFromCache)
-
-        data = response['data']
-
-        results = data['results']
-
-        returnStr = ''
-
-        for c in results:
-            returnStr = returnStr + '{} {}\n'.format(c['name'], c['comics']['returned'])
-
-        return returnStr.strip()
-
     def getAllCharactersList(self, RetrieveFromCache=True):
 
         returnList = []
@@ -76,7 +61,6 @@ class reportCache:
                         lsplt = line.split('\t')
 
                         character = tuple((lsplt[0],int(lsplt[1].strip())))
-                        print(character)
                         returnList.append(character)
 
 
@@ -104,7 +88,7 @@ class reportCache:
 
             for ch in results:
                 print(ch['name'])
-                returnList.append( (ch['name'], ch['comics']['returned']))
+                returnList.append( (ch['name'], ch['comics']['available']))
 
             offset = offset + limit
 
