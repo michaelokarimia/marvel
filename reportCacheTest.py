@@ -15,15 +15,17 @@ class reportCacheTest(unittest.TestCase):
 
         response = subject.getCharacters()
 
-        data = response['data']
+        self.assertEqual(response['data']['total'], 1491)
 
-        total = data['total']
+    def test_getPopularCharacters(self):
 
+        subject = reportCache.reportCache()
 
+        popular = subject.getPopularCharacters()
 
-        # js['data']['results'][0]['comics']['returned']
+        print(popular)
 
-        self.assertEqual(total, 1491)
+        self.assertEqual(popular, "Aaron Stack")
 
 
 if __name__ == '__main__':

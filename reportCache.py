@@ -22,8 +22,6 @@ class reportCache:
             jsonstr = f.readlines()
             f.close()
 
-            #characterdict = json.loads(jsonstr)
-
             my_dict = json.loads(jsonstr[0])
 
             return my_dict
@@ -44,3 +42,20 @@ class reportCache:
             my_dict = json.loads(jsonData)
 
             return my_dict
+
+    def getPopularCharacters(self):
+
+        response = self.getCharacters()
+
+        data = response['data']
+
+        results = data['results']
+
+        returnStr = ''
+
+        for c in results:
+            returnStr = returnStr + '\n{} {}'.format(c['name'], c['comics']['returned'])
+
+        print(returnStr)
+
+        return returnStr
