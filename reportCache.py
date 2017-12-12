@@ -5,11 +5,9 @@ import json
 charactersPath = 'characters.json'
 popularCharactersPath = 'popularcharacters.json'
 
-
 api = None
 
 class reportCache:
-
 
     def __init__(self):
 

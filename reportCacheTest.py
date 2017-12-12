@@ -1,10 +1,10 @@
 import unittest
-import os
 import reportCache
 
-class reportCacheTest(unittest.TestCase):
 
-    def testcan_cache_list_of_characters_to_file(self):
+class ReportCacheTest(unittest.TestCase):
+
+    def test_can_cache_list_of_characters_to_file(self):
 
         subject = reportCache.reportCache()
 
@@ -18,11 +18,7 @@ class reportCacheTest(unittest.TestCase):
 
         list = subject.getAllCharactersList(True)
 
-        sortedList = sorted(list, key=lambda character: character[1], reverse=True) #sort by appearances
-
-        self.assertEqual(sortedList[0], ('Spider-Man', 3095) )
-
-        self.assertEqual(len(sortedList), 1491)
+        self.assertEqual(len(list), 1491)
 
 
 
