@@ -3,6 +3,8 @@ import client
 import json
 
 charactersPath = 'characters.json'
+popularCharactersPath = 'popularcharacters.json'
+
 
 api = None
 
@@ -13,19 +15,22 @@ class reportCache:
 
         self.api = client.Client()
 
-    def getCharacters(self, limit=1, offset=0):
-
-        #check cache before returning file
-
+    def clearCache(self):
         if os.path.isfile(charactersPath):
-            f = open(charactersPath)
-            jsonstr = f.readlines()
-            f.close()
+            os.remove(charactersPath)
 
-            my_dict = json.loads(jsonstr[0])
 
-            return my_dict
+    def getCharacters(self, limit=1, offset=0, fetchFromCache=True):
 
+        if(fetchFromCache):
+            if os.path.isfile(charactersPath):
+                f = open(charactersPath)
+                jsonstr = f.readlines()
+                f.close()
+
+                return jsonstr
+            else:
+                self.getCharacters(limit,offset,False)
 
         else:
             #no cache available so pull it from the API
@@ -33,19 +38,19 @@ class reportCache:
 
             jsonData = result['data']
 
-            f = open(charactersPath, 'x')
-
-            f.write(jsonData)
-
-            f.close()
+            #write results
+            if os.path.isfile(charactersPath):
+                os.remove(charactersPath)
+            with open(charactersPath, 'x') as f:
+                f.write(jsonData)
 
             my_dict = json.loads(jsonData)
 
             return my_dict
 
-    def getPopularCharacters(self, limit, offset):
+    def getPopularCharacters(self, limit, offset, fetchFromCache=False):
 
-        response = self.getCharacters(limit, offset)
+        response = self.getCharacters(limit, offset, fetchFromCache)
 
         data = response['data']
 
@@ -58,33 +63,57 @@ class reportCache:
 
         return returnStr.strip()
 
-    def getAllCharactersList(self):
-        dict = {'key': 'value'}
+    def getAllCharactersList(self, RetrieveFromCache=True):
 
-        #flush cache
+        returnList = []
 
-        if os.path.isfile(charactersPath):
-            os.remove(charactersPath)
+        if(RetrieveFromCache):
+            # check cache before returning file
+            if os.path.isfile(popularCharactersPath):
+                with open(popularCharactersPath, 'r') as f:
+                    for line in f:
+
+                        lsplt = line.split('\t')
+
+                        character = tuple((lsplt[0],int(lsplt[1].strip())))
+                        print(character)
+                        returnList.append(character)
+
+
+
+                return returnList
+            else:
+                #if there is no file with the cache, call self which will call the API and create one
+                return self.getAllCharactersList(False)
+
+        total = self.getCharacters(fetchFromCache=False)['data']['total']
 
         limit = 100
 
         offset = 0
 
-        response = self.getCharacters(limit, offset)
+        while(offset < total):
 
-        total = response['data']['total']
+            response = self.getCharacters(limit, offset, fetchFromCache=False)
 
-        count = response['data']['count']
+            count = response['data']['count']
 
+            results = response['data']['results']
 
-        results = response['data']['results']
+            print('limit: {}, offset: {} total: {}\n count: {}\nresultsCount {}'.format(limit, offset, total, count, len(results)))
 
-        print('total: {}\n count: {}\nresultsCount {}'.format(total, count, len(results)))
+            for ch in results:
+                print(ch['name'])
+                returnList.append( (ch['name'], ch['comics']['returned']))
 
-        mylist = []
+            offset = offset + limit
 
-        for ch in results:
-            mylist.append( (ch['name'], ch['comics']['returned']))
+        #cache results
 
+        if os.path.isfile(popularCharactersPath):
+            os.remove(popularCharactersPath)
+        with open(popularCharactersPath, 'x') as f:
+            for char in returnList:
+                f.write('{}\t{}\n'.format(char[0], str(char[1])))
 
-        return mylist
+        return returnList

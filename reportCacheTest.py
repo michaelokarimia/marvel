@@ -6,47 +6,42 @@ class reportCacheTest(unittest.TestCase):
 
     def testcan_cache_list_of_characters_to_file(self):
 
-        path = 'characters.json'
-
-        if (os.path.isfile(path)):
-            os.remove(path)
-
         subject = reportCache.reportCache()
 
-        response = subject.getCharacters()
+        dict = subject.getCharacters(10,0,False)
 
-        self.assertEqual(response['data']['total'], 1491)
+        self.assertEqual(str(type(dict)), "<class 'dict'>")
 
     def test_getPopularCharacters(self):
 
-        path = 'characters.json'
-
-        if (os.path.isfile(path)):
-            os.remove(path)
-
         subject = reportCache.reportCache()
 
-        popular = subject.getPopularCharacters(2, 0)
+        popular = subject.getPopularCharacters(2, 0, False)
 
         self.assertEqual(popular, "3-D Man 12\nA-Bomb (HAS) 0")
 
-    def test_getAllCharacters(self):
-
-        path = 'characters.json'
-
-        if (os.path.isfile(path)):
-            os.remove(path)
+    def test_getPopularCharacters_can_cache(self):
 
         subject = reportCache.reportCache()
 
-        list = subject.getAllCharactersList()
+        popular = subject.getPopularCharacters(2, 0, True)
 
-        print(list)
+        self.assertEqual(popular, "3-D Man 12\nA-Bomb (HAS) 0")
+
+
+    def test_getAllCharacters(self):
+
+        subject = reportCache.reportCache()
+
+        list = subject.getAllCharactersList(True)
 
         sortedList = sorted(list, key=lambda character: character[1], reverse=True) #sort by appearances
 
-        self.assertEqual(sortedList[0][0], 'A.I.M.')
+        #print(sortedList)
 
+        self.assertEqual(sortedList[0], ('A.I.M.',20) )
+
+        self.assertEqual(len(sortedList), 1491)
 
 
 
