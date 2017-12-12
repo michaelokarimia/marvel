@@ -2,8 +2,6 @@
 import http.client
 import hashlib
 import datetime
-import json
-
 
 apiPublicKey = '3ed7f03032576c0b754b5b356266e05b'
 

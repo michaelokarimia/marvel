@@ -15,19 +15,9 @@ class clienttest(unittest.TestCase):
 
         subject = client.Client()
 
-
         result = subject.request('characters')
 
-        print('Status: {}'.format(result['status']))
-
         self.assertEqual(result['status'], 200)
-
-        json = result['data']
-
-        print(json)
-
-
-        self.assertEqual(json, "f")
 
 
 if __name__ == '__main__':
