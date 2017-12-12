@@ -56,6 +56,35 @@ class reportCache:
         for c in results:
             returnStr = returnStr + '{} {}\n'.format(c['name'], c['comics']['returned'])
 
-        print(returnStr)
-
         return returnStr.strip()
+
+    def getAllCharactersList(self):
+        dict = {'key': 'value'}
+
+        #flush cache
+
+        if os.path.isfile(charactersPath):
+            os.remove(charactersPath)
+
+        limit = 100
+
+        offset = 0
+
+        response = self.getCharacters(limit, offset)
+
+        total = response['data']['total']
+
+        count = response['data']['count']
+
+
+        results = response['data']['results']
+
+        print('total: {}\n count: {}\nresultsCount {}'.format(total, count, len(results)))
+
+        mylist = []
+
+        for ch in results:
+            mylist.append( (ch['name'], ch['comics']['returned']))
+
+
+        return mylist
