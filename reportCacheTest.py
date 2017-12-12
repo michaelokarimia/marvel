@@ -19,13 +19,18 @@ class reportCacheTest(unittest.TestCase):
 
     def test_getPopularCharacters(self):
 
+        path = 'characters.json'
+
+        if (os.path.isfile(path)):
+            os.remove(path)
+
         subject = reportCache.reportCache()
 
-        popular = subject.getPopularCharacters()
+        popular = subject.getPopularCharacters(2, 0)
 
         print(popular)
 
-        self.assertEqual(popular, "Aaron Stack")
+        self.assertEqual(popular, "3-D Man 12\nA-Bomb (HAS) 0")
 
 
 if __name__ == '__main__':

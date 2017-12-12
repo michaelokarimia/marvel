@@ -13,7 +13,7 @@ class reportCache:
 
         self.api = client.Client()
 
-    def getCharacters(self):
+    def getCharacters(self, limit=1, offset=0):
 
         #check cache before returning file
 
@@ -29,7 +29,7 @@ class reportCache:
 
         else:
             #no cache available so pull it from the API
-            result = self.api.request('characters')
+            result = self.api.request('characters', limit, offset)
 
             jsonData = result['data']
 
@@ -43,9 +43,9 @@ class reportCache:
 
             return my_dict
 
-    def getPopularCharacters(self):
+    def getPopularCharacters(self, limit, offset):
 
-        response = self.getCharacters()
+        response = self.getCharacters(limit, offset)
 
         data = response['data']
 
@@ -54,8 +54,8 @@ class reportCache:
         returnStr = ''
 
         for c in results:
-            returnStr = returnStr + '\n{} {}'.format(c['name'], c['comics']['returned'])
+            returnStr = returnStr + '{} {}\n'.format(c['name'], c['comics']['returned'])
 
         print(returnStr)
 
-        return returnStr
+        return returnStr.strip()

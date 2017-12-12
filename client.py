@@ -10,7 +10,7 @@ apiSecretPath = './privateKey.txt'
 secret = ''
 urlroot = 'gateway.marvel.com'
 
-urlpath = '/v1/public/{}?ts={}&apikey={}&hash={}'
+urlpath = '/v1/public/{}?limit={}&offset={}&ts={}&apikey={}&hash={}'
 
 class Client:
 
@@ -31,8 +31,7 @@ class Client:
 
         return response['status']
 
-
-    def request(self, endpoint):
+    def request(self, endpoint, limit=1, offset=0):
 
         ts = datetime.datetime.utcnow().toordinal()
 
@@ -46,7 +45,7 @@ class Client:
 
         conn = http.client.HTTPConnection(urlroot, 80)
 
-        reqPath = urlpath.format(endpoint, ts, apiPublicKey, hash)
+        reqPath = urlpath.format(endpoint, limit, offset, ts, apiPublicKey, hash)
 
         conn.request("GET", reqPath)
 
