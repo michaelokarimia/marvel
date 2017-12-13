@@ -26,9 +26,8 @@ class reportCache:
 
         if(fetchFromCache):
             if os.path.isfile(charactersPath) and os.path.exists(directory):
-                f = open(charactersPath)
-                jsonstr = f.readlines()
-                f.close()
+                with open(charactersPath) as f:
+                    jsonstr = f.readlines()
 
                 return jsonstr
             else:
