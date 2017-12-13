@@ -20,6 +20,27 @@ class ReportCacheTest(unittest.TestCase):
 
         self.assertEqual(len(list), 1491)
 
+    def xtest_get_all_comics_starring_character(self):
+
+        subject = reportCache.reportCache()
+
+        id = 1009610
+
+        comics = subject.getAllComicsStarringCharacter(id)
+
+        print(comics.keys())
+
+        print(comics['data']['results'][0])
+
+        comic = comics['data']['results'][0]
+
+        print(comic.keys() )
+
+        characters = comic['characters']
+
+        print(characters)
+
+        self.assertEqual(comics, 'SpiderMan')
 
 
 if __name__ == '__main__':

@@ -47,19 +47,28 @@ class Client:
 
         reqPath = urlpath.format(endpoint, limit, offset, ts, apiPublicKey, hash)
 
-        conn.request("GET", reqPath)
 
-        response = conn.getresponse()
 
-        data = None
+        try:
 
-        while not response.closed:
-            data = response.readall()
-            response.close()
+            conn.request("GET", reqPath)
 
-        result = { 'status': response.status, 'reponse' : response, 'data': data.decode()}
+            response = conn.getresponse()
 
-        conn.close()
+            if response.status != 200:
+                raise ValueError('Non-200 HTTP response when requesting url {}'.format(reqPath))
 
+            data = None
+
+            while not response.closed:
+                data = response.readall()
+                response.close()
+
+            result = { 'status': response.status, 'reponse' : response, 'data': data.decode()}
+
+            conn.close()
+
+        except:
+            raise ValueError('Exception when making HTTP request url {}'.format(reqPath))
         return result
 

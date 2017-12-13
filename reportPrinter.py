@@ -21,3 +21,9 @@ class ReportPrinter:
         sortedList = sorted(charList, key=lambda character: character[2], reverse=True)  # sort by appearances
 
         return sortedList[0 : limit]
+
+    def GetComicsStarringCharacter(self, characterId):
+
+        comics = self.reportApp.getAllComicsStarringCharacter(characterId)
+
+        return comics

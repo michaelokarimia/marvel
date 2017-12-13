@@ -5,7 +5,7 @@ import json
 
 directory = './cache/'
 charactersPath = directory+ 'characters.json'
-popularCharactersPath = directory+'popularcharacters.txt'
+AllCharactersPath = directory + 'allCharacters.txt'
 
 api = None
 
@@ -15,14 +15,20 @@ class reportCache:
 
         self.api = client.Client()
 
-    def clearCache(self):
-        if os.path.isfile(charactersPath):
-            os.remove(charactersPath)
+    def getAllComicsStarringCharacter(self, characterId):
 
+        limit = 100
+        offset = 0
+
+        # no cache available so pull it from the API
+
+        result = self.api.request('characters/{}/comics'.format(characterId), limit, offset)
+
+        jsonData = result['data']
+
+        return json.loads(jsonData)
 
     def getCharacters(self, limit=1, offset=0, fetchFromCache=True):
-
-
 
         if(fetchFromCache):
             if os.path.isfile(charactersPath) and os.path.exists(directory):
@@ -59,13 +65,15 @@ class reportCache:
 
         if(RetrieveFromCache):
             # check cache before returning file
-            if os.path.isfile(popularCharactersPath):
-                with open(popularCharactersPath, 'r') as f:
+            if os.path.isfile(AllCharactersPath):
+                with open(AllCharactersPath, 'r') as f:
                     for line in f:
 
                         lsplt = line.split('\t')
 
-                        character = tuple((lsplt[0],lsplt[1],int(lsplt[2].strip())))
+                        character = tuple((lsplt[0],lsplt[1],int(lsplt[2].strip()),
+                                           lsplt[3], lsplt[4]))
+
                         returnList.append(character)
 
 
@@ -88,7 +96,8 @@ class reportCache:
             results = response['data']['results']
 
             for ch in results:
-                returnList.append( (ch['id'], ch['name'], ch['comics']['available']))
+                returnList.append( (ch['id'], ch['name'], ch['comics']['available'],
+                                    ch['comics']['items'], ch['comics']['collectionURI']))
 
             offset = offset + limit
 
@@ -97,10 +106,11 @@ class reportCache:
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        if os.path.isfile(popularCharactersPath):
-            os.remove(popularCharactersPath)
-        with open(popularCharactersPath, 'x') as f:
+        if os.path.isfile(AllCharactersPath):
+            os.remove(AllCharactersPath)
+        with open(AllCharactersPath, 'x') as f:
             for char in returnList:
-                f.write('{}\t{}\t{}\n'.format(char[0], char[1], str(char[2])))
+                print(char)
+                f.write('{}\t{}\t{}\t{}\t{}\n'.format(char[0], char[1], str(char[2]), char[3], char[4]))
 
         return returnList

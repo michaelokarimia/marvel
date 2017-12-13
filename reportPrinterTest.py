@@ -28,5 +28,24 @@ class ReportPrinterTest(unittest.TestCase):
         self.assertEqual(result[2][1], 'Iron Man')
         self.assertEqual(result[3][1], 'Wolverine')
 
+    def test_get_co_occurances(self):
+
+        subject = reportPrinter.ReportPrinter()
+
+        spidermanId = 1009610
+
+        result = subject.GetComicsStarringCharacter(spidermanId)
+
+        data = result['data']['results']
+
+        print(data)
+
+        print(len(data))
+
+        self.assertEqual(data,"Spider man")
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
