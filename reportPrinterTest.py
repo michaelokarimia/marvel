@@ -8,7 +8,7 @@ class ReportPrinterTest(unittest.TestCase):
 
         subject = reportPrinter.ReportPrinter()
 
-        result = subject.printAllCharactersSortedAlphabetically()
+        result = subject.GetAllCharactersSortedAlphabetically()
 
         self.assertEqual(len(result), 1491)
 
@@ -19,7 +19,7 @@ class ReportPrinterTest(unittest.TestCase):
     def test_prints_top_ten_characters(self):
         subject = reportPrinter.ReportPrinter()
 
-        result = subject.printMostPopular(10)
+        result = subject.GetMostPopular(10)
 
         self.assertEqual(len(result), 10)
 
