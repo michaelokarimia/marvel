@@ -2,8 +2,10 @@ import os
 import client
 import json
 
-charactersPath = 'characters.json'
-popularCharactersPath = 'popularcharacters.json'
+
+directory = './cache/'
+charactersPath = directory+ 'characters.json'
+popularCharactersPath = directory+'popularcharacters.txt'
 
 api = None
 
@@ -20,8 +22,10 @@ class reportCache:
 
     def getCharacters(self, limit=1, offset=0, fetchFromCache=True):
 
+
+
         if(fetchFromCache):
-            if os.path.isfile(charactersPath):
+            if os.path.isfile(charactersPath) and os.path.exists(directory):
                 f = open(charactersPath)
                 jsonstr = f.readlines()
                 f.close()
@@ -37,6 +41,10 @@ class reportCache:
             jsonData = result['data']
 
             #write results
+
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+
             if os.path.isfile(charactersPath):
                 os.remove(charactersPath)
             with open(charactersPath, 'x') as f:
@@ -78,11 +86,7 @@ class reportCache:
 
             response = self.getCharacters(limit, offset, fetchFromCache=False)
 
-            count = response['data']['count']
-
             results = response['data']['results']
-
-            print('limit: {}, offset: {} total: {}\n count: {}\nresultsCount {}'.format(limit, offset, total, count, len(results)))
 
             for ch in results:
                 returnList.append( (ch['id'], ch['name'], ch['comics']['available']))
@@ -90,6 +94,9 @@ class reportCache:
             offset = offset + limit
 
         #cache results
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
         if os.path.isfile(popularCharactersPath):
             os.remove(popularCharactersPath)
