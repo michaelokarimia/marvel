@@ -12,9 +12,9 @@ class ReportPrinterTest(unittest.TestCase):
 
         self.assertEqual(len(result), 1491)
 
-        self.assertEqual(result[0], ('3-D Man', 12))
+        self.assertEqual(result[0][1], '3-D Man')
 
-        self.assertEqual(result[len(result)-1], ('Zzzax', 3))
+        self.assertEqual(result[len(result)-1][1], 'Zzzax')
 
     def test_prints_top_ten_characters(self):
         subject = reportPrinter.ReportPrinter()
@@ -23,10 +23,10 @@ class ReportPrinterTest(unittest.TestCase):
 
         self.assertEqual(len(result), 10)
 
-        self.assertEqual(result[0], ('Spider-Man', 3095))
-        self.assertEqual(result[1], ('X-Men', 2911))
-        self.assertEqual(result[2], ('Iron Man', 2316))
-        self.assertEqual(result[3], ('Wolverine', 2134))
+        self.assertEqual(result[0][1], 'Spider-Man')
+        self.assertEqual(result[1][1], 'X-Men')
+        self.assertEqual(result[2][1], 'Iron Man')
+        self.assertEqual(result[3][1], 'Wolverine')
 
 if __name__ == '__main__':
     unittest.main()

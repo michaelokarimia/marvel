@@ -58,7 +58,7 @@ class reportCache:
 
                         lsplt = line.split('\t')
 
-                        character = tuple((lsplt[0],int(lsplt[1].strip())))
+                        character = tuple((lsplt[0],lsplt[1],int(lsplt[2].strip())))
                         returnList.append(character)
 
 
@@ -85,8 +85,7 @@ class reportCache:
             print('limit: {}, offset: {} total: {}\n count: {}\nresultsCount {}'.format(limit, offset, total, count, len(results)))
 
             for ch in results:
-                print(ch['name'])
-                returnList.append( (ch['name'], ch['comics']['available']))
+                returnList.append( (ch['id'], ch['name'], ch['comics']['available']))
 
             offset = offset + limit
 
@@ -96,6 +95,6 @@ class reportCache:
             os.remove(popularCharactersPath)
         with open(popularCharactersPath, 'x') as f:
             for char in returnList:
-                f.write('{}\t{}\n'.format(char[0], str(char[1])))
+                f.write('{}\t{}\t{}\n'.format(char[0], char[1], str(char[2])))
 
         return returnList
