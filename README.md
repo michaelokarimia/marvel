@@ -2,7 +2,7 @@
 
 ### Set up
 
-##Requires Python 3.4
+## Requires Python 3.4
 
 Add the Marvel API client secret key to the file `privateKey.txt` with no trailing whitespace
 

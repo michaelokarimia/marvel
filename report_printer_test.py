@@ -28,7 +28,7 @@ class ReportPrinterTest(unittest.TestCase):
         self.assertEqual(result[2][1], 'Iron Man')
         self.assertEqual(result[3][1], 'Wolverine')
 
-    def test_get_co_occurances(self):
+    def disable_test_get_co_occurances(self):
 
         subject = reportPrinter.ReportPrinter()
 

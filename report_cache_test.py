@@ -20,7 +20,7 @@ class ReportCacheTest(unittest.TestCase):
 
         self.assertEqual(len(list), 1491)
 
-    def test_get_all_comics_starring_character(self):
+    def disable_test_get_all_comics_starring_character(self):
 
         subject = reportCache.reportCache()
 
