@@ -2,7 +2,7 @@ import client
 import unittest
 
 
-class clienttest(unittest.TestCase):
+class ClientTest(unittest.TestCase):
 
     def test_client_APIKey_Can_authenticate(self):
 
